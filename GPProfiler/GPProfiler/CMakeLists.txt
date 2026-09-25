@@ -1,12 +1,15 @@
-﻿# CMakeList.txt : CMake project for GPProfiler, include source and define
-# project specific logic here.
-#
+﻿cmake_minimum_required(VERSION 3.20)
 
-# Add source to this project's executable.
-add_executable (GPProfiler "GPProfiler.cpp" "GPProfiler.h")
+project(GPProfiler
+    VERSION 0.1.0
+    LANGUAGES CXX
+)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET GPProfiler PROPERTY CXX_STANDARD 20)
-endif()
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# TODO: Add tests and install targets if needed.
+add_executable(GPProfiler
+    src/main.cpp
+    src/system/CpuMonitor.cpp
+ "src/system/CpuMonitor.h" "src/system/CpuMonitor.cpp")
