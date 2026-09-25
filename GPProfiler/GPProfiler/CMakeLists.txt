@@ -13,4 +13,6 @@ add_executable(GPProfiler
     src/main.cpp
     src/system/CpuMonitor.cpp
     src/system/MemoryMonitor.cpp
- "src/system/CpuMonitor.h" "src/system/CpuMonitor.cpp" "src/system/MemoryMonitor.h" "src/system/MemoryMonitor.cpp")
+    src/system/ProcessMonitor.cpp
+
+ "src/system/CpuMonitor.h" "src/system/CpuMonitor.cpp" "src/system/MemoryMonitor.h" "src/system/MemoryMonitor.cpp" "src/system/ProcessMonitor.h" "src/system/ProcessMonitor.cpp")

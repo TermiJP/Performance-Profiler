@@ -4,6 +4,8 @@
 
 #include "system/CpuMonitor.h"
 #include "system/MemoryMonitor.h"
+#include "system/ProcessMonitor.h"
+
 
 
 double BytesToGB(unsigned long long bytes)
@@ -12,14 +14,36 @@ double BytesToGB(unsigned long long bytes)
         (1024.0 * 1024.0 * 1024.0);
 }
 
+double BytesToMB(unsigned long long bytes)
+{
+    return static_cast<double>(bytes) /
+        (1024.0 * 1024.0);
+}
+
 
 int main()
 {
     CpuMonitor cpuMonitor;
     MemoryMonitor memoryMonitor;
+    ProcessMonitor processMonitor;
 
+    std::vector<ProcessInfo> processes = processMonitor.GetProcesses();
+
+    for (const ProcessInfo& process : processes)
+    {
+        std::cout
+            << "PID: "
+            << process.processId
+            << " | "
+            << process.name
+            << " | RAM: "
+            << std::fixed
+            << std::setprecision(2)
+            << BytesToMB(process.memoryUsage)
+            << " MB\n";
+    }
     
-
+    /*
     while (true)
     {
         double cpuUsage = cpuMonitor.GetUsage();
@@ -43,6 +67,6 @@ int main()
             std::chrono::seconds(1)
         );
     }
-
+    */
     return 0;
 }
