@@ -6,33 +6,36 @@
 #include "system/MemoryMonitor.h"
 
 
+double BytesToGB(unsigned long long bytes)
+{
+    return static_cast<double>(bytes) /
+        (1024.0 * 1024.0 * 1024.0);
+}
+
+
 int main()
 {
     CpuMonitor cpuMonitor;
     MemoryMonitor memoryMonitor;
 
-    double usedMemoryGB =
-        memoryMonitor.GetUsedMemoryGB();
-
-    double totalMemoryGB =
-        memoryMonitor.GetTotalMemoryGB();
+    
 
     while (true)
     {
         double cpuUsage = cpuMonitor.GetUsage();
-        double memoryUsage = memoryMonitor.GetUsagePercentage();
+        MemorySnapshot memory = memoryMonitor.GetSnapshot();
 
         std::cout << "\rCPU: "
             << std::fixed
             << std::setprecision(1)
             << cpuUsage
             << "% | RAM: "
-            << memoryUsage
+            << memory.usagePercentage
             << "% | "
             << std::setprecision(2)
-            << usedMemoryGB
+            << BytesToGB(memory.usedMemory)
             << " / "
-            << totalMemoryGB
+            << BytesToGB(memory.totalMemory)
             << " GB   "
             << std::flush;
 

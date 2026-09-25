@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-double MemoryMonitor::GetUsagePercentage() const
+MemorySnapshot MemoryMonitor::GetSnapshot() const
 {
     MEMORYSTATUSEX memoryStatus;
 
@@ -10,79 +10,32 @@ double MemoryMonitor::GetUsagePercentage() const
 
     if (!GlobalMemoryStatusEx(&memoryStatus))
     {
-        return 0.0;
+        return {};
     }
 
-    const double totalMemory =
-        static_cast<double>(memoryStatus.ullTotalPhys);
+    const auto totalMemory =
+        memoryStatus.ullTotalPhys;
 
-    const double availableMemory =
-        static_cast<double>(memoryStatus.ullAvailPhys);
+    const auto availableMemory =
+        memoryStatus.ullAvailPhys;
 
-    if (totalMemory == 0.0)
-    {
-        return 0.0;
-    }
-
-    const double usedMemory =
+    const auto usedMemory =
         totalMemory - availableMemory;
 
-    return (usedMemory / totalMemory) * 100.0;
-}
+    double usagePercentage = 0.0;
 
-unsigned long long MemoryMonitor::GetTotalMemory() const
-{
-    MEMORYSTATUSEX memoryStatus;
-
-    memoryStatus.dwLength = sizeof(MEMORYSTATUSEX);
-
-    if (!GlobalMemoryStatusEx(&memoryStatus))
+    if (totalMemory > 0)
     {
-        return 0;
+        usagePercentage =
+            (static_cast<double>(usedMemory) /
+                static_cast<double>(totalMemory)) * 100.0;
     }
 
-    return memoryStatus.ullTotalPhys;
-}
-
-unsigned long long MemoryMonitor::GetAvailableMemory() const
-{
-    MEMORYSTATUSEX memoryStatus;
-
-    memoryStatus.dwLength = sizeof(MEMORYSTATUSEX);
-
-    if (!GlobalMemoryStatusEx(&memoryStatus))
+    return
     {
-        return 0;
-    }
-
-    return memoryStatus.ullAvailPhys;
-}
-
-unsigned long long MemoryMonitor::GetUsedMemory() const
-{
-    const auto totalMemory = GetTotalMemory();
-    const auto availableMemory = GetAvailableMemory();
-
-    if (totalMemory < availableMemory)
-    {
-        return 0;
-    }
-
-    return totalMemory - availableMemory;
-}
-
-double MemoryMonitor::GetTotalMemoryGB() const
-{
-    const auto totalMemory = GetTotalMemory();
-
-    return static_cast<double>(totalMemory) /
-        (1024.0 * 1024.0 * 1024.0);
-}
-
-double MemoryMonitor::GetUsedMemoryGB() const
-{
-    const auto usedMemory = GetUsedMemory();
-
-    return static_cast<double>(usedMemory) /
-        (1024.0 * 1024.0 * 1024.0);
+        totalMemory,
+        availableMemory,
+        usedMemory,
+        usagePercentage
+    };
 }

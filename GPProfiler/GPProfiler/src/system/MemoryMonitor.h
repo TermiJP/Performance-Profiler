@@ -1,14 +1,16 @@
 #pragma once
 
+
+struct MemorySnapshot 
+{
+    unsigned long long totalMemory;
+    unsigned long long availableMemory;
+    unsigned long long usedMemory;
+    double usagePercentage;
+};
+
 class MemoryMonitor
 {
 public:
-    double GetUsagePercentage() const;
-
-    unsigned long long GetTotalMemory() const;
-    unsigned long long GetAvailableMemory() const;
-    unsigned long long GetUsedMemory() const;
-
-    double GetTotalMemoryGB() const;
-    double GetUsedMemoryGB() const;
+    MemorySnapshot GetSnapshot() const;
 };
