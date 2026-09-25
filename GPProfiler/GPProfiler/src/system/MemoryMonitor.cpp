@@ -70,3 +70,19 @@ unsigned long long MemoryMonitor::GetUsedMemory() const
 
     return totalMemory - availableMemory;
 }
+
+double MemoryMonitor::GetTotalMemoryGB() const
+{
+    const auto totalMemory = GetTotalMemory();
+
+    return static_cast<double>(totalMemory) /
+        (1024.0 * 1024.0 * 1024.0);
+}
+
+double MemoryMonitor::GetUsedMemoryGB() const
+{
+    const auto usedMemory = GetUsedMemory();
+
+    return static_cast<double>(usedMemory) /
+        (1024.0 * 1024.0 * 1024.0);
+}

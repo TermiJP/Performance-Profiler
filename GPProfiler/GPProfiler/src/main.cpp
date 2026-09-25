@@ -11,12 +11,29 @@ int main()
     CpuMonitor cpuMonitor;
     MemoryMonitor memoryMonitor;
 
+    double usedMemoryGB =
+        memoryMonitor.GetUsedMemoryGB();
+
+    double totalMemoryGB =
+        memoryMonitor.GetTotalMemoryGB();
+
     while (true)
     {
         double cpuUsage = cpuMonitor.GetUsage();
         double memoryUsage = memoryMonitor.GetUsagePercentage();
 
-        std::cout << "\rCPU: " << cpuUsage << "% | RAM: " << memoryUsage << "%  "
+        std::cout << "\rCPU: "
+            << std::fixed
+            << std::setprecision(1)
+            << cpuUsage
+            << "% | RAM: "
+            << memoryUsage
+            << "% | "
+            << std::setprecision(2)
+            << usedMemoryGB
+            << " / "
+            << totalMemoryGB
+            << " GB   "
             << std::flush;
 
         std::this_thread::sleep_for(
