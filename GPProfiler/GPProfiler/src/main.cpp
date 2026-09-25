@@ -3,18 +3,20 @@
 #include <chrono>
 
 #include "system/CpuMonitor.h"
+#include "system/MemoryMonitor.h"
+
 
 int main()
 {
     CpuMonitor cpuMonitor;
+    MemoryMonitor memoryMonitor;
 
     while (true)
     {
         double cpuUsage = cpuMonitor.GetUsage();
+        double memoryUsage = memoryMonitor.GetUsagePercentage();
 
-        std::cout << "\rCPU Usage: "
-            << cpuUsage
-            << "%   "
+        std::cout << "\rCPU: " << cpuUsage << "% | RAM: " << memoryUsage << "%  "
             << std::flush;
 
         std::this_thread::sleep_for(

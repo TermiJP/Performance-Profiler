@@ -12,4 +12,5 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(GPProfiler
     src/main.cpp
     src/system/CpuMonitor.cpp
- "src/system/CpuMonitor.h" "src/system/CpuMonitor.cpp")
+    src/system/MemoryMonitor.cpp
+ "src/system/CpuMonitor.h" "src/system/CpuMonitor.cpp" "src/system/MemoryMonitor.h" "src/system/MemoryMonitor.cpp")
