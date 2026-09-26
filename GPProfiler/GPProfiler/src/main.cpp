@@ -27,17 +27,33 @@ int main()
     MemoryMonitor memoryMonitor;
     ProcessMonitor processMonitor;
 
+    std::cout << "Taking first sample...\n";
+
+    processMonitor.GetProcesses();
+
+    std::this_thread::sleep_for(
+        std::chrono::seconds(1)
+    );
+
+    std::cout << "Taking second sample...\n\n";
+
     std::vector<ProcessInfo> processes = processMonitor.GetProcesses();
 
     for (const ProcessInfo& process : processes)
     {
         std::cout
-            << "PID: "
-            << process.processId
-            << " | "
+            << std::left
+            << std::setw(30)
             << process.name
-            << " | RAM: "
+            << " PID: "
+            << std::setw(7)
+            << process.processId
+            << " CPU: "
             << std::fixed
+            << std::setprecision(2)
+            << std::setw(7)
+            << process.cpuUsage
+            << "% RAM: "
             << std::setprecision(2)
             << BytesToMB(process.memoryUsage)
             << " MB\n";
